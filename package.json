@@ -1,0 +1,12 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "firstProgram.js",
+  "scripts": {
+    "start": "node firstProgram.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "deepak kamboj",
+  "license": "ISC"
+}
