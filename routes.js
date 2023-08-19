@@ -1,9 +1,11 @@
-const http = require('http');
 const fs = require('fs');
-const server = http.createServer((req, res) => {
+
+const requesthandler = (req, res) => {
     if (req.url === '/') {
-        const fileData = fs.readFileSync('message.txt', 'utf8');
-        res.write(`<h3>${fileData}</h3>`)
+        if (fs.existsSync('message.txt')) {
+            const fileData = fs.readFileSync('message.txt', 'utf8');
+            res.write(`<h3>${fileData}</h3>`);
+        }
         res.write('<html>');
         res.write('<head><title>Enter Message</title><head>');
         res.write('<body><form action="/message" method="POST"><input type="text" name="message"><button type="submit">Send</button></form></body>');
@@ -19,12 +21,14 @@ const server = http.createServer((req, res) => {
         req.on('end', () => {
             const parsedBody = Buffer.concat(body).toString();
             const message = parsedBody.split('=')[1];
-            fs.writeFileSync('message.txt', message);
+            fs.writeFile('message.txt', message, err => {
+                res.statusCode = 302;
+                res.setHeader('Location', '/');
+                return res.end();
+            });
         })
-        res.statusCode = 302;
-        res.setHeader('Location', '/');
-        return res.end();
-    }
-})
 
-server.listen(3000);
+    }
+}
+
+module.exports = requesthandler;
