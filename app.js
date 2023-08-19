@@ -1,18 +1,25 @@
 const express = require('express');
 
+const session = require('express-session');
+
 const app = express();
 
-const adminRoutes = require('./routes/admin');
-const shopRoutes = require('./routes/shop');
+const loginRoutes = require('./routes/login');
+const chatRoutes = require('./routes/chat');
+
 
 app.use(express.urlencoded({ extended: true }));
 
-app.use(adminRoutes);
+// Configure the session middleware
+app.use(session({
+    secret: 'your-secret-key', // Replace with your secret key
+    resave: false,
+    saveUninitialized: true
+}));
 
-app.use(shopRoutes);
+app.use(loginRoutes);
 
-app.use((req, res, next) => {
-    res.status(404).send('<h1>Page Not Found</h1>')
-})
+app.use(chatRoutes);
+
 
 app.listen(3000);
