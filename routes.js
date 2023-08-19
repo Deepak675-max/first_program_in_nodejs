@@ -4,7 +4,7 @@ const requesthandler = (req, res) => {
     if (req.url === '/') {
         if (fs.existsSync('message.txt')) {
             const fileData = fs.readFileSync('message.txt', 'utf8');
-            res.write(`<h3>${fileData}</h3>`);
+            res.write(`<h4>${fileData}</h4>`);
         }
         res.write('<html>');
         res.write('<head><title>Enter Message</title><head>');
